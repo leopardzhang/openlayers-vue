@@ -1,0 +1,48 @@
+{
+    "env": {
+        "node": true,
+        "es6": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "globals": {
+        "fetch": false,
+        "__DEV__": false,
+        "WebSocket":false,
+        "FormData":false
+    },
+    "rules": {
+		"indent": 0,
+        "linebreak-style": ["error", "unix"],
+        "no-extra-semi": ["error"],
+        "no-unused-vars": [2, {"vars": "all", "args": "none"}],
+		"no-use-before-define": 0,
+        "react/display-name": 0,
+        "react/prop-types":0,
+        "react/no-string-refs":0,
+        "keyword-spacing": "error",
+        "no-spaced-func": "error",
+		"space-in-parens": "error",
+        "no-console": ["error", {
+            "allow": ["log"]
+        }],
+        "curly": [2, "multi-line"],
+		"array-bracket-spacing": [2, "never"],
+		"camelcase": 2,
+		"block-spacing":[1, "never"],
+		"consistent-this": [1, "_this"],
+        "brace-style": [2, "1tbs"],
+        "comma-spacing": 2,
+        "space-infix-ops": 2,
+        "arrow-spacing": 2,
+        "constructor-super": 2,
+        "no-var": 2,
+        "no-extra-parens":"error"
+    }
+}

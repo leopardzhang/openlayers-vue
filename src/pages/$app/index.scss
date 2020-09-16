@@ -1,0 +1,14 @@
+@import "common/variable.scss";
+
+.nav_list {
+	padding-left: 48px;
+	li {
+		font-size: 14px;
+		float: left;
+		margin-right: 2em;
+
+		a {
+			color: blue;
+		}
+	}
+}

@@ -1,0 +1,11 @@
+@import 'common/mixin.scss';
+@import 'common/variable.scss';
+
+h3 {
+	color: $action-color;
+}
+
+.main_map {
+	width: 100vw;
+	height: 100vh;
+}

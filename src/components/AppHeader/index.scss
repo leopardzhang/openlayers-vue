@@ -1,0 +1,25 @@
+@import 'common/mixin.scss';
+
+header {
+	background-color: white;
+	padding: 14px 0;
+
+	.arr_left {
+		width: 34px;
+		height: 16px;
+		background-size: contain;
+		background-repeat: no-repeat;
+		@include bg-image("./images/arr_left");
+	}
+
+	.page_name {
+		color: #383838;
+		font-size: 18px;
+	}
+
+	.save {
+		color: #4f4f4f;
+		font-size: 16px;
+		margin-top: 2px;
+	}
+}
