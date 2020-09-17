@@ -3,9 +3,8 @@ import TileLayer from 'ol/layer/Tile'
 import XYZ from 'ol/source/XYZ'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
-import { Style } from 'ol/style'
-import LineString from 'ol/geom/LineString'
-import Stroke from 'ol/style/Stroke'
+import Draw from 'ol/interaction/Draw'
+import { Style, Stroke, Fill } from 'ol/style'
 
 export default {
 	data() {
@@ -39,19 +38,28 @@ export default {
 		});
 		map.addLayer(polygonLayer);
 
-		const line = new ol.Feature({
-			geometry: new LineString([[14105726.687862298, 5743647.178997583], [14098465.170175206, 5738602.335130761], [14099267.7589722, 5730117.824991107], [14110351.12807355, 5727404.310486983], [14124453.759792166, 5734589.391145789]])
+		const polygonDraw = new Draw({
+			type: 'MultiPolygon',
+			source: polygonLayer.getSource(),
+			style: new Style({
+				stroke: new Stroke({
+					color: '#009933',
+					size: 1
+				}),
+
+				fill: new Fill({
+					color: 'rgba(0, 0, 0, 0.2)'
+				})
+			})
+		});
+		polygonDraw.on('drawend', function (event) {
+			console.log(event.feature.getGeometry().getCoordinates());
 		});
 
-		line.setStyle(new Style({
-
-			stroke: new Stroke({
-				color: '#009933',
-				width: 3
-			})
-		}));
-
-		polygonLayer.getSource().addFeature(line);
+		map.on('singleclick', function (event) {
+			console.log(event);
+		});
+		map.addInteraction(polygonDraw);
 	},
 
 	methods: {

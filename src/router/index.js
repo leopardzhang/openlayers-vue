@@ -12,11 +12,11 @@ export default new Router({
 		component: $app,
 		children: [
 			{
-				path: '/stroke',
-				name: 'stroke',
+				path: '/polygon',
+				name: 'polygon',
 				component(resolve) {
-					require.ensure(['@/pages/stroke/index.vue'], () => {
-						resolve(require('@/pages/stroke/index.vue'));
+					require.ensure(['@/pages/polygon/index.vue'], () => {
+						resolve(require('@/pages/polygon/index.vue'));
 					});
 				}
 			},
@@ -39,11 +39,11 @@ export default new Router({
 				}
 			},
 			{
-				path: '/showLine',
-				name: 'showLine',
+				path: '/showPolygon',
+				name: 'showPolygon',
 				component(resolve) {
-					require.ensure(['@/pages/showLine/index.vue'], () => {
-						resolve(require('@/pages/showLine/index.vue'));
+					require.ensure(['@/pages/showPolygon/index.vue'], () => {
+						resolve(require('@/pages/showPolygon/index.vue'));
 					});
 				}
 			},
