@@ -25,6 +25,9 @@ export default {
 	},
 
 	mounted() {
+		const container = document.getElementById('popup');
+		const content = document.getElementById('popup-content');
+		const closer = document.getElementById('popup-closer');
 		const map = new ol.Map({
 			target: 'map',
 			layers: [
@@ -43,6 +46,7 @@ export default {
 		const polygonLayer = new VectorLayer({
 			source: new VectorSource()
 		});
+
 		map.addLayer(polygonLayer);
 
 		for (const index in this.pointList) {
@@ -59,12 +63,35 @@ export default {
 			}));
 			polygonLayer.getSource().addFeature(point);
 		}
-		
+
 		const selectClick = new Select();
 		map.addInteraction(selectClick);
+
+		closer.onclick = function () {
+			overlay.setPosition(undefined);
+			closer.blur();
+			return false;
+		};
+		const overlay = new ol.Overlay({
+			element: container,
+			autoPan: true,
+			autoPanAnimation: {
+				duration: 250   //当Popup超出地图边界时，为了Popup全部可见，地图移动的速度.
+			}
+		});
+
 		selectClick.on('select', function (e) {
 			if (e.target.getFeatures().getArray().length) {
-				console.log(e.target.getFeatures().getArray()[0].values_.data.id)
+				const { 
+					data,
+					geometry: {
+						flatCoordinates: coordinate
+					}
+				} = e.target.getFeatures().getArray()[0].values_
+				content.innerHTML = `<p>你点击的point的id是：</p><code>${ data.id }</code>`;
+
+				overlay.setPosition(coordinate);
+				map.addOverlay(overlay);
 			}
 		})
 	},
