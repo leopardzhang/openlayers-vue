@@ -21,6 +21,15 @@ export default new Router({
 				}
 			},
 			{
+				path: '/point',
+				name: 'point',
+				component(resolve) {
+					require.ensure(['@/pages/point/index.vue'], () => {
+						resolve(require('@/pages/point/index.vue'));
+					});
+				}
+			},
+			{
 				path: '/showPoint',
 				name: 'showPoint',
 				component(resolve) {
@@ -30,11 +39,11 @@ export default new Router({
 				}
 			},
 			{
-				path: '/showStroke',
-				name: 'showStroke',
+				path: '/showLine',
+				name: 'showLine',
 				component(resolve) {
-					require.ensure(['@/pages/showStroke/index.vue'], () => {
-						resolve(require('@/pages/showStroke/index.vue'));
+					require.ensure(['@/pages/showLine/index.vue'], () => {
+						resolve(require('@/pages/showLine/index.vue'));
 					});
 				}
 			},

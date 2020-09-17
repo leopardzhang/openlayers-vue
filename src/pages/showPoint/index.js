@@ -6,8 +6,6 @@ import VectorSource from 'ol/source/Vector'
 import { Style, Icon } from 'ol/style'
 import Point from 'ol/geom/Point'
 import Select from 'ol/interaction/Select';
-import * as olCoordinate from 'ol/coordinate';
-import * as olProj from 'ol/proj';
 
 export default {
 	data() {
@@ -43,11 +41,11 @@ export default {
 			})
 		});
 
-		const polygonLayer = new VectorLayer({
+		const layer = new VectorLayer({
 			source: new VectorSource()
 		});
 
-		map.addLayer(polygonLayer);
+		map.addLayer(layer);
 
 		for (const index in this.pointList) {
 			const point = new ol.Feature({
@@ -61,7 +59,7 @@ export default {
 					src: require('@assets/img/markerbig_select.png')
 				})
 			}));
-			polygonLayer.getSource().addFeature(point);
+			layer.getSource().addFeature(point);
 		}
 
 		const selectClick = new Select();
@@ -76,19 +74,19 @@ export default {
 			element: container,
 			autoPan: true,
 			autoPanAnimation: {
-				duration: 250   //当Popup超出地图边界时，为了Popup全部可见，地图移动的速度.
+				duration: 200   //当Popup超出地图边界时，为了Popup全部可见，地图移动的速度.
 			}
 		});
 
 		selectClick.on('select', function (e) {
 			if (e.target.getFeatures().getArray().length) {
-				const { 
+				const {
 					data,
 					geometry: {
 						flatCoordinates: coordinate
 					}
 				} = e.target.getFeatures().getArray()[0].values_
-				content.innerHTML = `<p>你点击的point的id是：</p><code>${ data.id }</code>`;
+				content.innerHTML = `<p>你点击的point的id是：</p><code>${data.id}</code>`;
 
 				overlay.setPosition(coordinate);
 				map.addOverlay(overlay);
