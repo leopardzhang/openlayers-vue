@@ -59,6 +59,6 @@ export default new Router({
 		]
 	}, {
 		path: '/*',
-		redirect: '/stroke'
+		redirect: '/polygon'
 	}]
 })

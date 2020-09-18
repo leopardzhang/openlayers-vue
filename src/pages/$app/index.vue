@@ -11,7 +11,7 @@
 				<router-link to="showPoint">展示点位</router-link>
 			</li>
 			<li>
-				<router-link to="showPolygon">展示矢量线</router-link>
+				<router-link to="showPolygon">展示网格</router-link>
 			</li>
 			<li>
 				<router-link to="showPopup">展示弹窗</router-link>
