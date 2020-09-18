@@ -1,7 +1,6 @@
 import * as ol from 'ol'
-import TileLayer from 'ol/layer/Tile'
+import { Tile, Vector } from 'ol/layer'
 import XYZ from 'ol/source/XYZ'
-import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import { Point, Polygon } from 'ol/geom'
 import { Style, Icon, Stroke, Fill } from 'ol/style'
@@ -17,7 +16,7 @@ export default {
 		const map = new ol.Map({
 			target: 'map',
 			layers: [
-				new TileLayer({
+				new Tile({
 					source: new XYZ({
 						url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 					})
@@ -29,7 +28,7 @@ export default {
 			})
 		});
 
-		const polygonLayer = new VectorLayer({
+		const polygonLayer = new Vector({
 			source: new VectorSource()
 		});
 		map.addLayer(polygonLayer);
@@ -51,7 +50,7 @@ export default {
 
 		polygonLayer.getSource().addFeature(polygon);
 
-		const layer = new VectorLayer({
+		const layer = new Vector({
 			source: new VectorSource()
 		});
 		map.addLayer(layer);
