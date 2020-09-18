@@ -29,26 +29,6 @@ export default {
 			})
 		});
 
-		const layer = new VectorLayer({
-			source: new VectorSource()
-		});
-		map.addLayer(layer);
-
-		map.addEventListener('click', function (e) {
-			const point = new ol.Feature({
-				geometry: new Point(e.coordinate)
-			});
-
-			layer.getSource().clear()
-			point.setStyle(new Style({
-				image: new Icon({
-					src: require('@assets/img/markerbig_select.png')
-				})
-			}));
-
-			layer.getSource().addFeature(point);
-		})
-
 		const polygonLayer = new VectorLayer({
 			source: new VectorSource()
 		});
@@ -70,6 +50,26 @@ export default {
 		}));
 
 		polygonLayer.getSource().addFeature(polygon);
+
+		const layer = new VectorLayer({
+			source: new VectorSource()
+		});
+		map.addLayer(layer);
+
+		map.addEventListener('click', function (e) {
+			const point = new ol.Feature({
+				geometry: new Point(e.coordinate)
+			});
+
+			layer.getSource().clear()
+			point.setStyle(new Style({
+				image: new Icon({
+					src: require('@assets/img/markerbig_select.png')
+				})
+			}));
+
+			layer.getSource().addFeature(point);
+		})
 	},
 
 	methods: {
