@@ -5,7 +5,7 @@ import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import { Style, Icon } from 'ol/style'
 import Point from 'ol/geom/Point'
-import Select from 'ol/interaction/Select';
+import { Select, Snap } from 'ol/interaction';
 
 export default {
 	data() {
@@ -62,8 +62,10 @@ export default {
 			layer.getSource().addFeature(point);
 		}
 
-		const selectClick = new Select();
-		map.addInteraction(selectClick);
+		const selectClick = new Select()
+		const snap = new Snap()
+		map.addInteraction(selectClick)
+		map.addInteraction(Snap)
 
 		closer.onclick = function () {
 			overlay.setPosition(undefined);
@@ -91,6 +93,10 @@ export default {
 				overlay.setPosition(coordinate);
 				map.addOverlay(overlay);
 			}
+		})
+
+		snap.on('mouseover', function(e) {
+			console.log(e)
 		})
 	},
 

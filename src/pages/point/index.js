@@ -40,7 +40,7 @@ export default {
 		polygon.setStyle(new Style({
 			stroke: new Stroke({
 				color: '#009933',
-				width: 3
+				width: 2
 			}),
 
 			fill: new Fill({
