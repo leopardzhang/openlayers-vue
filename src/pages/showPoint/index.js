@@ -6,6 +6,7 @@ import VectorSource from 'ol/source/Vector'
 import { Style, Icon } from 'ol/style'
 import Point from 'ol/geom/Point'
 import { Select } from 'ol/interaction'
+import { transform as pointTransform } from 'ol/proj'
 
 export default {
 	data() {
@@ -19,6 +20,7 @@ export default {
 	},
 
 	mounted() {
+		const center = pointTransform([126.62, 45.74], "EPSG:4326", "EPSG:3857");
 		const container = document.getElementById('popup');
 		const content = document.getElementById('popup-content');
 		const closer = document.getElementById('popup-closer');

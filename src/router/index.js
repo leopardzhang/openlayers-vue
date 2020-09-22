@@ -55,6 +55,15 @@ export default new Router({
 						resolve(require('@/pages/showPopup/index.vue'));
 					});
 				}
+			},
+			{
+				path: '/component',
+				name: 'component',
+				component(resolve) {
+					require.ensure(['@/pages/component/index.vue'], () => {
+						resolve(require('@/pages/component/index.vue'));
+					});
+				}
 			}
 		]
 	}, {

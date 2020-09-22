@@ -16,8 +16,11 @@
 			<li>
 				<router-link to="showPopup">展示弹窗</router-link>
 			</li>
+			<li>
+				<router-link to="component">组件方式</router-link>
+			</li>
 		</ul>
-		
+
 		<router-view></router-view>
 	</main>
 </template>
