@@ -29,8 +29,10 @@ export default {
 	name: 'LayerMap',
 
 	props: {
-		center: Array,
-		zoom: Number
+		center: Array,			//中心位置
+		zoom: Number,			//缩放比
+		polygon: Array,			//网格
+		polygonStyle: Object	//网格的样式
 	},
 
 	data() {
@@ -38,7 +40,6 @@ export default {
 			map: null
 		}
 	},
-
 
 	mounted() {
 		this.map = new ol.Map({
@@ -56,55 +57,93 @@ export default {
 			})
 		});
 
-		this.setCenter()
-		this.drawPolygon()
+		this.setCenter(this.center)
+		this.drawPolygon(this.polygonStyle)
+		this.transformPolygon(this.polygon)
 	},
 
 	methods: {
-
 		/**
 		 * 设置中心位置
 		 * @param {*} map 
 		 */
-		setCenter(center = this.center) {
+		setCenter(center) {
+			if (!center) {
+				throw new Error('center is required')
+			}
 			const coordinate = transform(center, "EPSG:4326", "EPSG:3857")
 
 			this.map.getView().setCenter(coordinate)
 		},
 
 		/**
-		 * 
+		 * 设置缩放比
 		 * @param {缩放比} zoom 
 		 */
-		setZoom(zoom = this.zoom) {
+		setZoom(zoom = 12) {
 			this.map.getView().setZoom(zoom)
 		},
 
 		/**
 		 * 展示网格
 		 */
-		drawPolygon() {
+		drawPolygon(polygonStyle = { stroke: {}, fill: {} }) {
+			const {
+				stroke: {
+					color: strokeColor = '#009933',
+					width = 3
+				},
+				fill: {
+					color: fillColor = 'rgba(255, 255, 255, 0.4)'
+				}
+			} = polygonStyle
+
 			const polygonLayer = new Vector({
 				source: new VectorSource()
 			});
-			this.map.addLayer(polygonLayer);
 
 			const polygon = new ol.Feature({
-				geometry: new Polygon([[[14105726.687862298, 5743647.178997583], [14098465.170175206, 5738602.335130761], [14099267.7589722, 5730117.824991107], [14110351.12807355, 5727404.310486983], [14124453.759792166, 5734589.391145789]]])
+				geometry: new Polygon(this.transformPolygon(this.polygon))
 			});
+
+			this.map.addLayer(polygonLayer);
 
 			polygon.setStyle(new Style({
 				stroke: new Stroke({
-					color: '#009933',
-					width: 3
+					color: strokeColor,
+					width: width
 				}),
 
 				fill: new Fill({
-					color: 'rgba(255, 255, 255, 0.4)'
+					color: fillColor
 				})
 			}));
 
 			polygonLayer.getSource().addFeature(polygon);
+		},
+
+		/**
+		 * 转换坐标系
+		 * @param {高德坐标} input 
+		 */
+		transformCoordinate(input) {
+			return transform(input, "EPSG:4326", "EPSG:3857")
+		},
+
+		/**
+		 * 转换网格的坐标
+		 * @param {高德网格多维数组} input 
+		 */
+		transformPolygon(input) {
+			const outPut = input.map((item) => {
+				if (Array.isArray(item) && Array.isArray(item[0])) {
+					return this.transformPolygon(item)
+				} else {
+					return this.transformCoordinate(item)
+				}
+			})
+
+			return outPut
 		}
 	},
 

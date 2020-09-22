@@ -1,6 +1,11 @@
 <template>
 	<div>
-		<LayerMap :center="center" :zoom="zoom"></LayerMap>
+		<LayerMap
+			:center="center"
+			:zoom="zoom"
+			:polygon="polygon"
+			:polygonStyle="polygonStyle">
+		</LayerMap>
 	</div>
 </template>
 
