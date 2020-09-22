@@ -15,11 +15,9 @@ export default {
 
 	methods: {
 		setCenter() {
-			const center = this.inputVal.split(',')
+			const zoom = this.inputVal
 
-			if (center.length == 2) {
-				this.center = [center[0].trim(), center[1].trim()]
-			}
+			this.zoom = zoom
 		}
 	}
 }

@@ -73,6 +73,14 @@ export default {
 		},
 
 		/**
+		 * 
+		 * @param {缩放比} zoom 
+		 */
+		setZoom(zoom = this.zoom) {
+			this.map.getView().setZoom(zoom)
+		},
+
+		/**
 		 * 展示网格
 		 */
 		drawPolygon() {
@@ -101,8 +109,12 @@ export default {
 	},
 
 	watch: {
-		center(val) {
-			this.setCenter(val)
+		center(center) {
+			this.setCenter(center)
+		},
+
+		zoom(zoom) {
+			this.setZoom(zoom)
 		}
 	},
 }
