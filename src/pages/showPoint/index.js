@@ -20,7 +20,7 @@ export default {
 	},
 
 	mounted() {
-		const center = pointTransform([126.62, 45.74], "EPSG:4326", "EPSG:3857");
+		// const center = pointTransform([126.62, 45.74], "EPSG:4326", "EPSG:3857");
 		const container = document.getElementById('popup');
 		const content = document.getElementById('popup-content');
 		const closer = document.getElementById('popup-closer');

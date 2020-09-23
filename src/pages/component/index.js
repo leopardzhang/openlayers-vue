@@ -33,8 +33,50 @@ export default {
 				fill: {
 					color: 'rgba(255, 255, 255, 0.2)'
 				}
-			}
+			},
+
+			point: [{
+				coordinate: [126.647758, 45.755531],
+				show: true,
+				icon: require('@assets/img/markerbig_select.png'),
+				data: {
+					a: 12,
+					b: 5
+				}
+			}, {
+				coordinate: [126.647658, 45.755231],
+				show: true,
+				icon: require('@assets/img/markerbig_select.png'),
+				data: {
+					a: 10,
+					b: 6
+				}
+			}, {
+				coordinate: [126.647358, 45.755931],
+				show: true,
+				icon: require('@assets/img/markerbig_select.png'),
+				data: {
+					a: 9,
+					b: 2
+				}
+			}]
 		}
+	},
+
+	mounted() {
+		// setTimeout(() => {
+		// 	this.point = [
+		// 		{
+		// 			coordinate: [126.644358, 45.752931],
+		// 			show: true,
+		// 			icon: require('@assets/img/markerbig_select.png'),
+		// 			data: {
+		// 				a: 9,
+		// 				b: 2
+		// 			}
+		// 		}
+		// 	]
+		// }, 2000)
 	},
 
 	methods: {
@@ -42,6 +84,10 @@ export default {
 			const zoom = this.inputVal
 
 			this.zoom = zoom
+		},
+
+		pointClick(data) {
+			console.log(data)
 		}
 	}
 }

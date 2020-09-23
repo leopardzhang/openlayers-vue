@@ -32,12 +32,14 @@ export default {
 		center: Array,			//中心位置
 		zoom: Number,			//缩放比
 		polygon: Array,			//网格
-		polygonStyle: Object	//网格的样式
+		polygonStyle: Object,	//网格的样式
+		point: Array			//点位
 	},
 
 	data() {
 		return {
-			map: null
+			map: null,
+			basePointLayer: null
 		}
 	},
 
@@ -53,13 +55,19 @@ export default {
 			],
 			view: new ol.View({
 				center: [0, 0],
-				zoom: 12
+				zoom: this.zoom || 12
 			})
 		});
 
 		this.setCenter(this.center)
-		this.drawPolygon(this.polygonStyle)
-		this.transformPolygon(this.polygon)
+		if (this.polygon) {
+			this.drawPolygon(this.polygonStyle)
+			this.transformPolygon(this.polygon)
+		}
+
+		if (this.point.length) {
+			this.drawPoint()
+		}
 	},
 
 	methods: {
@@ -94,19 +102,19 @@ export default {
 					width = 3
 				},
 				fill: {
-					color: fillColor = 'rgba(255, 255, 255, 0.4)'
+					color: fillColor = 'rgba(255, 255, 255, 0.2)'
 				}
 			} = polygonStyle
 
 			const polygonLayer = new Vector({
 				source: new VectorSource()
-			});
+			})
 
 			const polygon = new ol.Feature({
 				geometry: new Polygon(this.transformPolygon(this.polygon))
-			});
+			})
 
-			this.map.addLayer(polygonLayer);
+			this.map.addLayer(polygonLayer)
 
 			polygon.setStyle(new Style({
 				stroke: new Stroke({
@@ -119,7 +127,56 @@ export default {
 				})
 			}));
 
-			polygonLayer.getSource().addFeature(polygon);
+			polygonLayer.getSource().addFeature(polygon)
+		},
+
+		drawPoint() {
+			const selectClick = new Select()
+
+			if (!this.basePointLayer) {
+				this.basePointLayer = new Vector({
+					source: new VectorSource()
+				});
+
+				this.map.addLayer(this.basePointLayer)
+			}
+
+			this.basePointLayer.getSource().clear()
+
+			for (const item of this.point) {
+				if (item.show) {
+					const point = new ol.Feature({
+						geometry: new Point(this.transformCoordinate(item.coordinate)),
+						data: item.data
+					})
+
+					point.setStyle(new Style({
+						image: new Icon({
+							src: item.icon
+						})
+					}))
+					this.basePointLayer.getSource().addFeature(point);
+				}
+
+			}
+
+			this.map.addInteraction(selectClick)
+
+			selectClick.on('select', e => {
+				if (e.target.getFeatures().getArray().length) {
+					const {
+						data,
+						geometry: {
+							flatCoordinates: coordinate
+						}
+					} = e.target.getFeatures().getArray()[0].values_
+
+					this.$emit('pointClick', {
+						coordinate,
+						data
+					})
+				}
+			})
 		},
 
 		/**
@@ -154,6 +211,14 @@ export default {
 
 		zoom(zoom) {
 			this.setZoom(zoom)
+		},
+
+		point: {
+			handler(points) {
+				console.log(points)
+				this.drawPoint(points)
+			},
+			deep: true
 		}
 	},
 }

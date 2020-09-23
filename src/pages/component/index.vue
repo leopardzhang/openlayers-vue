@@ -1,10 +1,12 @@
 <template>
 	<div>
 		<LayerMap
+			@pointClick="pointClick"
 			:center="center"
 			:zoom="zoom"
 			:polygon="polygon"
-			:polygonStyle="polygonStyle">
+			:polygonStyle="polygonStyle"
+			:point="point">
 		</LayerMap>
 	</div>
 </template>
