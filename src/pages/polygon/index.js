@@ -48,7 +48,7 @@ export default {
 				}),
 
 				fill: new Fill({
-					color: 'rgba(0, 0, 0, 0.2)'
+					color: 'rgba(255, 0, 0, 0.2)'
 				})
 			})
 		});

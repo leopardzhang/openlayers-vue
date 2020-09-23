@@ -31,7 +31,7 @@ export default {
 				},
 
 				fill: {
-					color: 'rgba(255, 255, 255, 0.2)'
+					color: 'rgba(255, 255, 255, 0.4)'
 				}
 			},
 
@@ -61,7 +61,8 @@ export default {
 				}
 			}],
 
-			drawPointAble: false
+			drawPointAble: false,
+			drawPolygonAble: true
 		}
 	},
 
@@ -93,6 +94,10 @@ export default {
 		},
 
 		drawPoint(data) {
+			console.log(data)
+		},
+
+		drawPolyon(data) {
 			console.log(data)
 		}
 	}

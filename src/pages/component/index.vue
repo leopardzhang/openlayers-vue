@@ -3,12 +3,14 @@
 		<LayerMap
 			@pointClick="pointClick"
 			@drawPoint="drawPoint"
+			@drawPolyon="drawPolyon"
 			:center="center"
 			:zoom="zoom"
 			:polygon="polygon"
 			:polygonStyle="polygonStyle"
 			:point="point"
-			:drawPointAble="drawPointAble">
+			:drawPointAble="drawPointAble"
+			:drawPolygonAble="drawPolygonAble">
 		</LayerMap>
 	</div>
 </template>

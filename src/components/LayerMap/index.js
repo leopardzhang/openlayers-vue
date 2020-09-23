@@ -29,19 +29,21 @@ export default {
 	name: 'LayerMap',
 
 	props: {
-		center: Array,			//中心位置
-		zoom: Number,			//缩放比
-		polygon: Array,			//网格
-		polygonStyle: Object,	//网格的样式
-		point: Array,			//点位
-		drawPointAble: Boolean
+		center: Array,				//中心位置
+		zoom: Number,				//缩放比
+		polygon: Array,				//网格
+		polygonStyle: Object,		//网格的样式
+		point: Array,				//点位
+		drawPointAble: Boolean,		//能否画点
+		drawPolygonAble: Boolean,	//能否画网格
 	},
 
 	data() {
 		return {
 			map: null,
 			basePointLayer: null,
-			baseDrawPonitLayer: null
+			baseDrawPonitLayer: null,
+			baseDrawPolygon: null
 		}
 	},
 
@@ -73,6 +75,10 @@ export default {
 
 		if (this.drawPointAble) {
 			this.setPointAble()
+		}
+
+		if (this.drawPolygonAble) {
+			this.setPolygonAble()
 		}
 	},
 
@@ -213,11 +219,47 @@ export default {
 				}))
 
 				this.baseDrawPonitLayer.getSource().addFeature(point);
-				
+
 				this.$emit('drawPoint', {
 					coordinate: this.reverseCoordinate(e.coordinate)
 				})
 			})
+		},
+
+		/**
+		 * 画网格的能力
+		 */
+		setPolygonAble() {
+			this.baseDrawPolygon = new Vector({
+				source: new VectorSource()
+			});
+			this.map.addLayer(this.baseDrawPolygon);
+
+			const polygonDraw = new Draw({
+				type: 'MultiPolygon',
+				source: this.baseDrawPolygon.getSource(),
+				style: new Style({
+					stroke: new Stroke({
+						color: '#009933',
+						size: 1
+					}),
+
+					fill: new Fill({
+						color: 'rgba(255, 255, 255, 0.2)'
+					})
+				})
+			});
+
+			polygonDraw.on('drawend', (event) => {
+				this.$emit('drawPolyon', {
+					coordinate: event.feature.getGeometry().getCoordinates()
+				})
+			});
+
+			// this.map.on('singleclick', function (event) {
+			// 	console.log(event);
+			// });
+			this.map.addInteraction(polygonDraw);
 		},
 
 		/**
