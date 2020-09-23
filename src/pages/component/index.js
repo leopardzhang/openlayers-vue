@@ -59,7 +59,9 @@ export default {
 					a: 9,
 					b: 2
 				}
-			}]
+			}],
+
+			drawPointAble: false
 		}
 	},
 
@@ -87,6 +89,10 @@ export default {
 		},
 
 		pointClick(data) {
+			console.log(data)
+		},
+
+		drawPoint(data) {
 			console.log(data)
 		}
 	}

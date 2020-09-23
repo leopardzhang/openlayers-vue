@@ -33,13 +33,15 @@ export default {
 		zoom: Number,			//缩放比
 		polygon: Array,			//网格
 		polygonStyle: Object,	//网格的样式
-		point: Array			//点位
+		point: Array,			//点位
+		drawPointAble: Boolean
 	},
 
 	data() {
 		return {
 			map: null,
-			basePointLayer: null
+			basePointLayer: null,
+			baseDrawPonitLayer: null
 		}
 	},
 
@@ -68,6 +70,10 @@ export default {
 		if (this.point.length) {
 			this.drawPoint()
 		}
+
+		if (this.drawPointAble) {
+			this.setPointAble()
+		}
 	},
 
 	methods: {
@@ -93,7 +99,8 @@ export default {
 		},
 
 		/**
-		 * 展示网格
+		 * 
+		 * @param {样式} polygonStyle 
 		 */
 		drawPolygon(polygonStyle = { stroke: {}, fill: {} }) {
 			const {
@@ -130,6 +137,9 @@ export default {
 			polygonLayer.getSource().addFeature(polygon)
 		},
 
+		/**
+		 *	绘制点位
+		 */
 		drawPoint() {
 			const selectClick = new Select()
 
@@ -171,11 +181,42 @@ export default {
 						}
 					} = e.target.getFeatures().getArray()[0].values_
 
-					this.$emit('pointClick', {
-						coordinate,
-						data
-					})
+					if (!this.drawPointAble) {
+						this.$emit('pointClick', {
+							coordinate: this.reverseCoordinate(coordinate),
+							data
+						})
+					}
 				}
+			})
+		},
+
+		/**
+		 * 能否绘制点位
+		 */
+		setPointAble() {
+			this.baseDrawPonitLayer = new Vector({
+				source: new VectorSource()
+			})
+
+			this.map.addLayer(this.baseDrawPonitLayer)
+			this.map.addEventListener('click', (e) => {
+				const point = new ol.Feature({
+					geometry: new Point(e.coordinate)
+				})
+
+				this.baseDrawPonitLayer.getSource().clear()
+				point.setStyle(new Style({
+					image: new Icon({
+						src: require('@assets/img/markerbig_select.png')
+					})
+				}))
+
+				this.baseDrawPonitLayer.getSource().addFeature(point);
+				
+				this.$emit('drawPoint', {
+					coordinate: this.reverseCoordinate(e.coordinate)
+				})
 			})
 		},
 
@@ -185,6 +226,14 @@ export default {
 		 */
 		transformCoordinate(input) {
 			return transform(input, "EPSG:4326", "EPSG:3857")
+		},
+
+		/**
+		 * 反向转换坐标系
+		 * @param {基本坐标系} input 
+		 */
+		reverseCoordinate(input) {
+			return transform(input, "EPSG:3857", "EPSG:4326")
 		},
 
 		/**
@@ -215,7 +264,6 @@ export default {
 
 		point: {
 			handler(points) {
-				console.log(points)
 				this.drawPoint(points)
 			},
 			deep: true

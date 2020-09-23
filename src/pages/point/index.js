@@ -53,19 +53,19 @@ export default {
 		const layer = new Vector({
 			source: new VectorSource()
 		});
-		map.addLayer(layer);
+		map.addLayer(layer)
 
 		map.addEventListener('click', function (e) {
 			const point = new ol.Feature({
 				geometry: new Point(e.coordinate)
-			});
+			})
 
 			layer.getSource().clear()
 			point.setStyle(new Style({
 				image: new Icon({
 					src: require('@assets/img/markerbig_select.png')
 				})
-			}));
+			}))
 
 			layer.getSource().addFeature(point);
 		})

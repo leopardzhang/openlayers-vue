@@ -2,11 +2,13 @@
 	<div>
 		<LayerMap
 			@pointClick="pointClick"
+			@drawPoint="drawPoint"
 			:center="center"
 			:zoom="zoom"
 			:polygon="polygon"
 			:polygonStyle="polygonStyle"
-			:point="point">
+			:point="point"
+			:drawPointAble="drawPointAble">
 		</LayerMap>
 	</div>
 </template>
