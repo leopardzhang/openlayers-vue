@@ -12,7 +12,9 @@
 			:point="point"
 			:drawPointAble="drawPointAble"
 			:drawPolygonAble="drawPolygonAble"
-			:showPopup="showPopup">
+			:showPopup="showPopup"
+		>
+			
 		</LayerMap>
 	</div>
 </template>

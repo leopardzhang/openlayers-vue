@@ -1,7 +1,12 @@
 import LayerMap from '../../components/LayerMap/index.vue'
+import hkTV from '../../components/hkTV'
+import videoTV from '../../components/videoTV'
+
 export default {
 	components: {
-		LayerMap
+		LayerMap,
+		hkTV,
+		videoTV
 	},
 
 	data() {
