@@ -222,7 +222,7 @@ export default {
 							return false;
 						};
 
-						content.innerHTML = `<p>携带的信息是：</p><code>${JSON.stringify(data)}</code>`;
+						// content.innerHTML = `<p>携带的信息是：</p><code>${JSON.stringify(data)}</code>`;
 
 						this.overlay.setPosition(coordinate)
 						this.map.addOverlay(this.overlay)
