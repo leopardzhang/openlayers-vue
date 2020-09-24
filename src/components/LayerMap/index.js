@@ -73,6 +73,7 @@ export default {
 
 		this.setCenter(this.center)
 		if (this.polygon) {
+			this.enterKeyup();
 			this.drawPolygon(this.polygonStyle)
 			this.transformPolygon(this.polygon)
 		}
@@ -113,7 +114,7 @@ export default {
 		},
 
 		/**
-		 * 
+		 * 画网格
 		 * @param {样式} polygonStyle 
 		 */
 		drawPolygon(polygonStyle = { stroke: {}, fill: {} }) {
@@ -205,7 +206,6 @@ export default {
 
 					if (this.showPopup) {
 						const container = this.$refs.popup
-						const content = this.$refs.content
 						const closer = this.$refs.closer
 
 						this.overlay = new ol.Overlay({
@@ -328,7 +328,24 @@ export default {
 			})
 
 			return outPut
-		}
+		},
+
+		enterKey(event) {
+			const code = event.keyCode
+				? event.keyCode
+				: event.which
+					? event.which
+					: event.charCode;
+			if (code == 27) {
+				this.baseDrawPolygon.getSource().clear()
+			}
+		},
+		enterKeyupDestroyed() {
+			document.removeEventListener("keyup", this.enterKey);
+		},
+		enterKeyup() {
+			document.addEventListener("keyup", this.enterKey);
+		},
 	},
 
 	watch: {
@@ -346,5 +363,9 @@ export default {
 			},
 			deep: true
 		}
+	},
+
+	beforeDestroy() {
+		this.enterKeyupDestroyed()
 	},
 }

@@ -67,8 +67,8 @@ export default {
 			}],
 
 			drawPointAble: false,
-			drawPolygonAble: false,
-			showPopup: true
+			drawPolygonAble: true,
+			showPopup: false
 		}
 	},
 
