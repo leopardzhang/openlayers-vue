@@ -62,24 +62,12 @@ export default {
 			}],
 
 			drawPointAble: false,
-			drawPolygonAble: true
+			drawPolygonAble: false,
+			showPopup: true
 		}
 	},
 
 	mounted() {
-		// setTimeout(() => {
-		// 	this.point = [
-		// 		{
-		// 			coordinate: [126.644358, 45.752931],
-		// 			show: true,
-		// 			icon: require('@assets/img/markerbig_select.png'),
-		// 			data: {
-		// 				a: 9,
-		// 				b: 2
-		// 			}
-		// 		}
-		// 	]
-		// }, 2000)
 	},
 
 	methods: {
@@ -98,6 +86,10 @@ export default {
 		},
 
 		drawPolyon(data) {
+			console.log(data)
+		},
+
+		popupShow(data) {
 			console.log(data)
 		}
 	}

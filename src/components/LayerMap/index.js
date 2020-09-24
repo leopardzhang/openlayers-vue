@@ -1,4 +1,6 @@
+import videoTV from '../videoTV'
 import * as ol from 'ol'
+import * as olCoordinate from 'ol/coordinate'
 import {
 	Tile,
 	Vector
@@ -28,6 +30,10 @@ import {
 export default {
 	name: 'LayerMap',
 
+	components: {
+		videoTV
+	},
+
 	props: {
 		center: Array,				//中心位置
 		zoom: Number,				//缩放比
@@ -36,6 +42,7 @@ export default {
 		point: Array,				//点位
 		drawPointAble: Boolean,		//能否画点
 		drawPolygonAble: Boolean,	//能否画网格
+		showPopup: Boolean
 	},
 
 	data() {
@@ -43,7 +50,8 @@ export default {
 			map: null,
 			basePointLayer: null,
 			baseDrawPonitLayer: null,
-			baseDrawPolygon: null
+			baseDrawPolygon: null,
+			overlay: null
 		}
 	},
 
@@ -179,6 +187,7 @@ export default {
 			this.map.addInteraction(selectClick)
 
 			selectClick.on('select', e => {
+				console.log(e)
 				if (e.target.getFeatures().getArray().length) {
 					const {
 						data,
@@ -189,6 +198,36 @@ export default {
 
 					if (!this.drawPointAble) {
 						this.$emit('pointClick', {
+							coordinate: this.reverseCoordinate(coordinate),
+							data
+						})
+					}
+
+					if (this.showPopup) {
+						const container = this.$refs.popup
+						const content = this.$refs.content
+						const closer = this.$refs.closer
+
+						this.overlay = new ol.Overlay({
+							element: container,
+							autoPan: true,
+							autoPanAnimation: {
+								duration: 250
+							}
+						});
+
+						closer.onclick = () => {
+							this.overlay.setPosition(undefined);
+							closer.blur();
+							return false;
+						};
+
+						content.innerHTML = `<p>携带的信息是：</p><code>${JSON.stringify(data)}</code>`;
+
+						this.overlay.setPosition(coordinate)
+						this.map.addOverlay(this.overlay)
+
+						this.$emit('popupShow', {
 							coordinate: this.reverseCoordinate(coordinate),
 							data
 						})
@@ -256,9 +295,6 @@ export default {
 				})
 			});
 
-			// this.map.on('singleclick', function (event) {
-			// 	console.log(event);
-			// });
 			this.map.addInteraction(polygonDraw);
 		},
 

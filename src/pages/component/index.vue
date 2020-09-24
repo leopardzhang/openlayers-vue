@@ -4,13 +4,15 @@
 			@pointClick="pointClick"
 			@drawPoint="drawPoint"
 			@drawPolyon="drawPolyon"
+			@popupShow="popupShow"
 			:center="center"
 			:zoom="zoom"
 			:polygon="polygon"
 			:polygonStyle="polygonStyle"
 			:point="point"
 			:drawPointAble="drawPointAble"
-			:drawPolygonAble="drawPolygonAble">
+			:drawPolygonAble="drawPolygonAble"
+			:showPopup="showPopup">
 		</LayerMap>
 	</div>
 </template>
